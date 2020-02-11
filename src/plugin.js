@@ -142,6 +142,13 @@ function handleClickEvents(chart, event) {
 	}
 }
 
+function getLabelAtEventBinder(chart) {
+	return function(event) {
+		var expando = chart[EXPANDO_KEY];
+		return layout.lookup(expando._labels, event);
+	};
+}
+
 // https://github.com/chartjs/chartjs-plugin-datalabels/issues/108
 function invalidate(chart) {
 	if (chart.animating) {
@@ -172,6 +179,7 @@ var plugin = {
 		chart[EXPANDO_KEY] = {
 			_actives: []
 		};
+		chart[EXPANDO_KEY].getLabelAtEvent = getLabelAtEventBinder(chart);
 	},
 
 	beforeUpdate: function(chart) {
